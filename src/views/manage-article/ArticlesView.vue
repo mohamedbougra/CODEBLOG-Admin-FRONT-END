@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="card">
       <h5>Articles List</h5>
-      <DataTable
+      <!-- <DataTable
         :value="products"
         v-model:expandedRows="expandedRows"
         dataKey="id"
@@ -13,13 +13,11 @@
             <Button
               icon="pi pi-plus"
               label="Expand All"
-              @click="expandAll"
               class="mr-2 mb-2"
             />
             <Button
               icon="pi pi-minus"
               label="Collapse All"
-              @click="collapseAll"
               class="mb-2"
             />
           </div>
@@ -55,7 +53,7 @@
           <template #body="slotProps">
             {{ formatCurrency(slotProps.data.category) }}
           </template>
-        </Column>
+        </Column> 
 
         <Column field="inventoryStatus" header="Status" :sortable="true">
           <template #body="slotProps">
@@ -90,9 +88,7 @@
                 </template>
               </Column>
               <Column field="amount" header="Amount" :sortable="true">
-                <template #body="slotProps">
-                  {{ formatCurrency(slotProps.data.amount) }}
-                </template>
+                
               </Column>
               <Column field="status" header="Status" :sortable="true">
                 <template #body="slotProps">
@@ -115,15 +111,63 @@
             </DataTable>
           </div>
         </template>
+      </DataTable> -->
+      <DataTable
+        ref="dt"
+        :value="tableData"
+        :rows="7"
+        :paginator="true"
+        responsiveLayout="scroll"
+      >
+        <Column field="image" header="Image">
+          <template #body="slotProps">
+            <img
+              :src="slotProps.data.image"
+              :alt="slotProps.data.image"
+              width="50"
+              class="shadow-2"
+            />
+          </template>
+        </Column>
+        <Column field="title" header="Title" :sortable="true"></Column>
+        <Column field="views" header="Views" :sortable="true"></Column>
+        <Column
+          field="lastUpdate"
+          header="Last Update"
+          :sortable="true"
+        ></Column>
+        <Column field="Crud">
+          <template #body="slotProps">
+            <Button
+              icon="pi pi-eye"
+              class="p-button-rounded mr-2"
+              @click="readd(slotProps.data)"
+            />
+            <Button
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success mr-2"
+              @click="update(slotProps.data)"
+            />
+
+            <Button
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger mr-2"
+              @click="delet(slotProps.data)"
+            />
+          </template>
+        </Column>
       </DataTable>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import routes from "../../router"; // Import your route configuration
+
 import { FilterMatchMode, FilterOperator } from "primevue/api";
 import CustomerService from "../../service/CustomerService";
 import ProductService from "../../service/ProductService";
+import ColorPicker from "primevue/colorpicker";
 
 export default {
   data() {
@@ -146,112 +190,133 @@ export default {
         "renewal",
         "proposal",
       ],
-      representatives: [
-        { name: "Amy Elsner", image: "amyelsner.png" },
-        { name: "Anna Fali", image: "annafali.png" },
-        { name: "Asiya Javayant", image: "asiyajavayant.png" },
-        { name: "Bernardo Dominic", image: "bernardodominic.png" },
-        { name: "Elwin Sharvill", image: "elwinsharvill.png" },
-        { name: "Ioni Bowcher", image: "ionibowcher.png" },
-        { name: "Ivan Magalhaes", image: "ivanmagalhaes.png" },
-        { name: "Onyama Limba", image: "onyamalimba.png" },
-        { name: "Stephen Shaw", image: "stephenshaw.png" },
-        { name: "XuXue Feng", image: "xuxuefeng.png" },
+
+      tableData: [
+        {
+          id: 1,
+          image: "https://picsum.photos/200",
+          title: "Example Title 1",
+          views: 100,
+          lastUpdate: "2023-05-01",
+        },
+        {
+          id: 2,
+          image: "https://picsum.photos/200",
+          title: "Example Title 2",
+          views: 200,
+          lastUpdate: "2023-05-02",
+        },
+        {
+          id: 3,
+          image: "https://picsum.photos/200",
+          title: "Example Title 3",
+          views: 300,
+          lastUpdate: "2023-05-03",
+        },
+        {
+          id: 4,
+          image: "https://picsum.photos/200",
+          title: "Example Title 4",
+          views: 400,
+          lastUpdate: "2023-05-04",
+        },
+        {
+          id: 5,
+          image: "https://picsum.photos/200",
+          title: "Example Title 5",
+          views: 500,
+          lastUpdate: "2023-05-05",
+        },
+        {
+          id: 6,
+          image: "https://picsum.photos/200",
+          title: "Example Title 1",
+          views: 100,
+          lastUpdate: "2023-05-01",
+        },
+        {
+          id: 7,
+          image: "https://picsum.photos/200",
+          title: "Example Title 2",
+          views: 200,
+          lastUpdate: "2023-05-02",
+        },
+        {
+          id: 8,
+          image: "https://picsum.photos/200",
+          title: "Example Title 3",
+          views: 300,
+          lastUpdate: "2023-05-03",
+        },
+        {
+          id: 9,
+          image: "https://picsum.photos/200",
+          title: "Example Title 4",
+          views: 400,
+          lastUpdate: "2023-05-04",
+        },
+        {
+          id: 10,
+          image: "https://picsum.photos/200",
+          title: "Example Title 5",
+          views: 500,
+          lastUpdate: "2023-05-05",
+        },
+        {
+          id: 11,
+          image: "https://picsum.photos/200",
+          title: "Example Title 1",
+          views: 100,
+          lastUpdate: "2023-05-01",
+        },
+        {
+          id: 14,
+          image: "https://picsum.photos/200",
+          title: "Example Title 2",
+          views: 200,
+          lastUpdate: "2023-05-02",
+        },
+        {
+          id: 12,
+          image: "https://picsum.photos/200",
+          title: "Example Title 3",
+          views: 300,
+          lastUpdate: "2023-05-03",
+        },
+        {
+          id: 13,
+          image: "https://picsum.photos/200",
+          title: "Example Title 4",
+          views: 400,
+          lastUpdate: "2023-05-04",
+        },
+        {
+          id: 15,
+          image: "https://picsum.photos/200",
+          title: "Example Title 5",
+          views: 500,
+          lastUpdate: "2023-05-05",
+        },
       ],
+      postId: "" as string,
+      postTitle: "" as string,
+      postImage: "" as string,
+      postContent: "" as string,
+      postTags: ["", "", ""],
     };
   },
-  customerService: CustomerService | null,
-  productService: ProductService | null,
-  created() {
-    this.customerService = new CustomerService();
-    this.productService = new ProductService();
-    this.initFilters1();
-  },
-  mounted() {
-    this.productService
-      .getProductsWithOrdersSmall()
-      .then((data) => (this.products = data));
-    this.customerService.getCustomersLarge().then((data) => {
-      this.customer1 = data;
-      this.loading1 = false;
-      this.customer1.forEach(
-        (customer) => (customer.date = new Date(customer.date))
-      );
-    });
-    this.customerService
-      .getCustomersLarge()
-      .then((data) => (this.customer2 = data));
-    this.customerService
-      .getCustomersMedium()
-      .then((data) => (this.customer3 = data));
-    this.loading2 = false;
-  },
-  methods: {
-    initFilters1() {
-      this.filters1 = {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        name: {
-          operator: FilterOperator.AND,
-          constraints: [
-            { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-          ],
-        },
-        "country.name": {
-          operator: FilterOperator.AND,
-          constraints: [
-            { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-          ],
-        },
-        representative: { value: null, matchMode: FilterMatchMode.IN },
-        date: {
-          operator: FilterOperator.AND,
-          constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
-        },
-        balance: {
-          operator: FilterOperator.AND,
-          constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-        },
-        status: {
-          operator: FilterOperator.OR,
-          constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-        },
-        activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-        verified: { value: null, matchMode: FilterMatchMode.EQUALS },
-      };
-    },
-    clearFilter1() {
-      this.initFilters1();
-    },
-    expandAll() {
-      this.expandedRows = this.products.filter((p) => p.id);
-    },
-    collapseAll() {
-      this.expandedRows = null;
-    },
-    formatCurrency(value: number) {
-      return value.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-    },
-    formatDate(value: Date) {
-      return value.toLocaleDateString("en-US", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-    },
-    calculateCustomerTotal(name: string) {
-      let total = 0;
-      if (this.customer3) {
-        for (let customer of this.customer3) {
-          if (customer.representative.name === name) {
-            total++;
-          }
-        }
-      }
 
-      return total;
+  methods: {
+    update(data: any) {
+      //TODO : data to data.id
+      routes.push({ name: "update", params: { id: data.title } });
+      console.log("delete ligne : ", data.title);
+    },
+    delet(data: any) {
+      console.log("update ligne : ", data.title);
+    },
+    readd(data: any) {
+      console.log("title in read click : ", data.title);
     },
   },
 };

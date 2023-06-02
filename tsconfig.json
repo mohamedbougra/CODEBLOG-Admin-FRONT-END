@@ -24,8 +24,8 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/service/CustomerService.js",
-    "src/service/ProductService.js"
+    "src/service/CustomerService.ts",
+    "src/service/ProductService.ts"
   ],
   "exclude": ["node_modules"]
 }
