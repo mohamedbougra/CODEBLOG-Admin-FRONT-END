@@ -25,6 +25,11 @@ const logoUrl = computed(() => {
 
 const onTopBarMenuButton = () => {
   topbarMenuActive.value = !topbarMenuActive.value;
+  router.push("/login");
+};
+const Profile = () => {
+  topbarMenuActive.value = !topbarMenuActive.value;
+  router.push("/settings/account");
 };
 const onSettingsClick = () => {
   topbarMenuActive.value = false;
@@ -89,18 +94,19 @@ const isOutsideClicked = (event) => {
     </button>
 
     <div class="layout-topbar-menu" :class="topbarMenuClasses">
-      <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">
-        <i class="pi pi-calendar"></i>
-        <span>Calendar</span>
-      </button>
-      <button @click="onTopBarMenuButton()" class="p-link layout-topbar-button">
+      <button @click="Profile()" class="p-link layout-topbar-button">
         <i class="pi pi-user"></i>
         <span>Profile</span>
       </button>
-      <button @click="onSettingsClick()" class="p-link layout-topbar-button">
-        <i class="pi pi-cog"></i>
-        <span>Settings</span>
-      </button>
+      <div class="layout-topbar-menu" :class="topbarMenuClasses">
+        <button
+          @click="onTopBarMenuButton()"
+          class="p-link layout-topbar-button"
+        >
+          <i class="pi pi-sign-out"></i>
+          <span>Log-out</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>

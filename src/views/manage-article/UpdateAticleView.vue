@@ -50,13 +50,18 @@
     <Editor v-model="value" editorStyle="height: 220px" />
     <div class="p-d-flex p-3">
       <ConfirmDialog></ConfirmDialog>
-      <Button @click="post" icon="pi pi-check" label="Confirm">Post</Button>
+      <Button @click="update" icon="pi pi-check" label="Confirm">Update</Button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  created() {
+    // Access the parameter value
+    this.title = this.$route.params.id;
+    // Do something with the parameter value
+  },
   data() {
     return {
       title: null,
@@ -92,8 +97,7 @@ export default {
         life: 3000,
       });
     },
-
-    post() {
+    update() {
       // Update logic goes here
     },
   },

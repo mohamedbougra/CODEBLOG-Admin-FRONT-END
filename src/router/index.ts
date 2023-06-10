@@ -4,11 +4,17 @@ import loginView from "../views/loginView.vue";
 import AppLayout from "@/layout/AppLayout.vue";
 import TopicSearchView from "@/views/manage-article/TopicSearchView.vue";
 import WriteView from "@/views/manage-article/WriteView.vue";
+import UpdateAricleView from "@/views/manage-article/UpdateAticleView.vue";
 import ArticlesView from "@/views/manage-article/ArticlesView.vue";
+import CommentView from "@/views/manage-article/CommentView.vue";
 import FollowersView from "@/views/statistics/FollowersView.vue";
 import ReadArticleView from "@/views/statistics/ReadArticleView.vue";
 import VisitorProfileView from "@/views/statistics/VisitorProfileView.vue";
 import SavesView from "@/views/statistics/SavesView.vue";
+import AccountView from "@/views/settings/AccountView.vue";
+import PasswordView from "@/views/settings/PasswordView.vue";
+import NotificationView from "@/views/settings/NotificationView.vue";
+import UsersListeView from "@/views/Users/UsersListeView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -31,9 +37,19 @@ const routes: Array<RouteRecordRaw> = [
         component: ArticlesView,
       },
       {
+        path: "/update/:id",
+        name: "update",
+        component: UpdateAricleView,
+      },
+      {
         path: "/topic-search",
         name: "topic-search",
         component: TopicSearchView,
+      },
+      {
+        path: "/comments",
+        name: "comments",
+        component: CommentView,
       },
       {
         path: "statistics/profile-vistor",
@@ -54,6 +70,27 @@ const routes: Array<RouteRecordRaw> = [
         path: "statistics/followers",
         name: "followers",
         component: FollowersView,
+      },
+      {
+        path: "settings/account",
+        name: "account",
+        component: AccountView,
+      },
+      {
+        path: "settings/password",
+        name: "password",
+        component: PasswordView,
+      },
+      {
+        path: "settings/notification",
+        name: "notification",
+        component: NotificationView,
+      },
+      // users
+      {
+        path: "users",
+        name: "users",
+        component: UsersListeView,
       },
     ],
   },

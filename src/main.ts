@@ -15,6 +15,7 @@ import "@/assets/styles.scss";
 import PrimeVue from "primevue/config";
 
 import "primevue/resources/themes/bootstrap4-light-purple/theme.css";
+
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 
