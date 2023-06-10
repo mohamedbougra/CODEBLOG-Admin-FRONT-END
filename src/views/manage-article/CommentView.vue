@@ -9,19 +9,9 @@
         :paginator="true"
         responsiveLayout="scroll"
       >
-        <Column field="image" header="Image">
-          <template #body="slotProps">
-            <img
-              :src="slotProps.data.image"
-              :alt="slotProps.data.image"
-              width="50"
-              class="shadow-2"
-            />
-          </template>
-        </Column>
-        <Column field="name" header="Name" :sortable="true"></Column>
-        <Column field="comment" header="Comment" :sortable="true"></Column>
-        <Column field="article" header="Article" :sortable="true"></Column>
+        <Column field="name" header="name" :sortable="true"></Column>
+        <Column field="article" header="article" :sortable="true"></Column>
+        <Column field="comment" header="comment" :sortable="true"></Column>
         <Column
           field="publishdate"
           header="publish date"
@@ -30,103 +20,18 @@
         <Column field="Crud">
           <template #body="slotProps">
             <Button
-              icon="pi pi-eye"
-              class="p-button-rounded m-2"
-              @click="readd(slotProps.data)"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success m-2"
+              @click="confirm(slotProps.data)"
             />
             <Button
               icon="pi pi-trash"
               class="p-button-rounded p-button-danger m-2"
-              @click="delet(slotProps.data)"
+              @click="report(slotProps.data)"
             />
           </template>
         </Column>
       </DataTable>
-      <Dialog
-        v-model:visible="commentDialog"
-        :style="{ width: '450px' }"
-        header="comment Details"
-        :modal="true"
-        class="p-fluid"
-      >
-        <img
-          :src="comment.image"
-          :alt="comment.image"
-          v-if="comment.image"
-          width="150"
-          class="mt-0 mx-auto mb-5 block shadow-2"
-        />
-        <div class="field">
-          <label for="name">Name</label>
-          <InputText
-            id="name"
-            :disabled="true"
-            v-model.trim="comment.name"
-            required="true"
-            autofocus
-            :class="{ 'p-invalid': submitted && !comment.name }"
-          />
-        </div>
-        <div class="field">
-          <label for="comment">comment</label>
-          <Textarea
-            id="comment"
-            v-model="comment.comment"
-            required="true"
-            :disabled="true"
-            rows="3"
-            cols="20"
-          />
-        </div>
-
-        <div class="field">
-          <label for="article" class="mb-3">Article</label>
-          <InputText
-            id="article"
-            :disabled="true"
-            v-model.trim="comment.article"
-            required="true"
-            autofocus
-            :class="{ 'p-invalid': submitted && !comment.article }"
-          />
-        </div>
-        <div class="field">
-          <label for="publishdate" class="mb-3">Publish Date</label>
-          <InputText
-            id="publishdate"
-            :disabled="true"
-            v-model.trim="comment.publishdate"
-            required="true"
-            autofocus
-            :class="{ 'p-invalid': submitted && !comment.publishdate }"
-          />
-        </div>
-        <div class="field">
-          <label for="status" class="mb-3">status</label>
-          <InputText
-            id="status"
-            :disabled="true"
-            v-model.trim="comment.status"
-            required="true"
-            autofocus
-            :class="{ 'p-invalid': submitted && !comment.status }"
-          />
-        </div>
-        <template #footer>
-          <Button
-            label="Cancel"
-            icon="pi pi-times"
-            class="p-button-text"
-            @click="hideDialog"
-          />
-          <Button
-            label="confime"
-            icon="pi pi-check"
-            class="p-button-text"
-            @click="savecomment"
-          />
-        </template>
-      </Dialog>
     </div>
   </div>
 </template>
@@ -142,8 +47,6 @@ import ColorPicker from "primevue/colorpicker";
 export default {
   data() {
     return {
-      comment: {},
-      commentDialog: false,
       customer1: null as any,
       customer2: null as any,
       customer3: null as any,
@@ -152,7 +55,6 @@ export default {
       loading1: true,
       loading2: true,
       idFrozen: false,
-      submitte: false,
       products: null as any,
       expandedRows: [] as any[],
       statuses: [
@@ -167,7 +69,6 @@ export default {
       comments: [
         {
           id: 1,
-          image: "https://picsum.photos/200",
           name: "Example name 1",
           article: "java tuto",
           comment:
@@ -177,7 +78,6 @@ export default {
         },
         {
           id: 2,
-          image: "https://picsum.photos/200",
           name: "Example name 2",
           article: "java tuto",
           comment:
@@ -187,7 +87,6 @@ export default {
         },
         {
           id: 3,
-          image: "https://picsum.photos/200",
           name: "Example name 3",
           article: "java tuto",
           comment:
@@ -197,7 +96,6 @@ export default {
         },
         {
           id: 4,
-          image: "https://picsum.photos/200",
           name: "Example name 4",
           article: "java tuto",
           comment:
@@ -207,7 +105,6 @@ export default {
         },
         {
           id: 5,
-          image: "https://picsum.photos/200",
           name: "Example name 5",
           article: "java tuto",
           comment:
@@ -217,7 +114,6 @@ export default {
         },
         {
           id: 6,
-          image: "https://picsum.photos/200",
           name: "Example name 1",
           article: "java tuto",
           comment:
@@ -227,7 +123,6 @@ export default {
         },
         {
           id: 7,
-          image: "https://picsum.photos/200",
           name: "Example name 2",
           article: "java tuto",
           comment:
@@ -237,7 +132,6 @@ export default {
         },
         {
           id: 8,
-          image: "https://picsum.photos/200",
           name: "Example name 3",
           article: "java tuto",
           comment:
@@ -247,7 +141,6 @@ export default {
         },
         {
           id: 9,
-          image: "https://picsum.photos/200",
           name: "Example name 4",
           article: "java tuto",
           comment:
@@ -257,7 +150,6 @@ export default {
         },
         {
           id: 10,
-          image: "https://picsum.photos/200",
           name: "Example name 5",
           article: "java tuto",
           comment:
@@ -267,7 +159,6 @@ export default {
         },
         {
           id: 11,
-          image: "https://picsum.photos/200",
           name: "Example name 1",
           article: "java tuto",
           comment:
@@ -277,7 +168,6 @@ export default {
         },
         {
           id: 14,
-          image: "https://picsum.photos/200",
           name: "Example name 2",
           article: "java tuto",
           comment:
@@ -287,7 +177,6 @@ export default {
         },
         {
           id: 12,
-          image: "https://picsum.photos/200",
           name: "Example name 3",
           article: "java tuto",
           comment:
@@ -297,7 +186,6 @@ export default {
         },
         {
           id: 13,
-          image: "https://picsum.photos/200",
           name: "Example name 4",
           article: "java tuto",
           comment:
@@ -307,7 +195,6 @@ export default {
         },
         {
           id: 15,
-          image: "https://picsum.photos/200",
           name: "Example name 5",
           article: "java tuto",
           comment: "e amet reprehenderit ut qui non mollit ut el",
@@ -324,36 +211,14 @@ export default {
   },
 
   methods: {
-    delet(comment) {
-      console.log("update ligne : ", comment.name);
+    confirm(data: any) {
+      //TODO : data to data.id
+      data.status = "confirmed";
+      routes.push({ name: "confirm", params: { id: data.name } });
+      console.log("report ligne : ", data.name);
     },
-    readd(comment) {
-      this.comment = { ...comment };
-      this.commentDialog = true;
-      console.log("name in read click : ", comment.name);
-    },
-    savecomment() {
-      this.submitted = true;
-      if (this.comment.name.trim()) {
-        if (this.comment.id) {
-          // this.comments[this.findIndexById(this.comment.id)] = this.comment;
-          // this.$toast.add({
-          //   severity: "success",
-          //   summary: "Successful",
-          //   detail: "comment Updated",
-          //   life: 3000,
-          // });
-        } else {
-          // this.$toast.add({
-          //   severity: "success",
-          //   summary: "Successful",
-          //   detail: "comment Created",
-          //   life: 3000,
-          // });
-        }
-        this.commentDialog = false;
-        this.comment = {};
-      }
+    report(data: any) {
+      console.log("report click : ", data.name);
     },
   },
 };
