@@ -3,11 +3,14 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> b72a8f84c4cca905b7b25b654a41851f20b5a7d1
 import "@/assets/styles.scss";
 import PrimeVue from "primevue/config";
 
