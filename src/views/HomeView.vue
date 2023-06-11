@@ -8,6 +8,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+
       newArray : []  ,
       dataLit: [
         { count: 89, tags: 'java' },
@@ -21,6 +22,14 @@ export default {
         { count: 5, tags: 'docker' },
         { count: 4, tags: 'kotlin' },
       ],
+      selectedTag: '',
+         tagOptions: [
+                { name: 'java', code: 'NY' },
+                { name: 'spring', code: 'RM' },
+                { name: ' docker', code: 'LDN' }
+              
+            ],
+        
       datatx: null,
       products: null,
       lineData: {
@@ -38,49 +47,8 @@ export default {
         ]
       },
       barData: {
-        labels: ['Java', 'spring', 'spring-boot', 'jpa', 'jsf', 'jsp', 'hibernat'],
-        datasets: [
-          {
-            label: 'Revenue',
-            data: [65, 59, 80, 81, 150, 55, 40],
-            fill: false,
-            backgroundColor: '#2f4860',
-            borderColor: '#2f4860',
-            tension: 0.4
-          },
-          {
-            label: 'Sales',
-            data: [28, 48, 40, 19, 86, 27, 90],
-            fill: false,
-            backgroundColor: '#00bb7e',
-            borderColor: '#00bb7e',
-            tension: 0.4
-          },
-          {
-            label: 'Sales1',
-            data: [28, 48, 40, 19, 86, 27, 90],
-            fill: false,
-            backgroundColor: '#00bb7e',
-            borderColor: '#00bb7e',
-            tension: 0.4
-          },
-          {
-            label: 'Sales2',
-            data: [28, 48, 40, 19, 86, 27, 90],
-            fill: false,
-            backgroundColor: '#00bb7e',
-            borderColor: '#00bb7e',
-            tension: 0.4
-          },
-          {
-            label: 'Sales3',
-            data: [28, 48, 40, 19, 86, 27, 90],
-            fill: false,
-            backgroundColor: '#00bb7e',
-            borderColor: '#00bb7e',
-            tension: 0.4
-          }
-        ]
+        labels: ['May', 'April', 'March', 'February'],
+        datasets: [ ]
       },
       items: [
         { label: 'Add New', icon: 'pi pi-fw pi-plus' },
@@ -89,7 +57,14 @@ export default {
       lineOptions: null,
     }
   },
-
+  watch: {
+    selectedTag: {
+      immediate: true,
+      handler() {
+        this.fetchbarData();
+      },
+    },
+  },
 
   productService: null,
   themeChangeListener: null,
@@ -113,6 +88,118 @@ export default {
  
   },
   methods: {
+    fetchbarData() {
+      
+      // Process the data and update barData based on the selected tag
+      const data = [
+    {
+        "callCount": {
+            "april": 4,
+            "march": 5,
+            "may": 186
+        },
+        "tag": "spring-security"
+    },
+    {
+        "callCount": {
+            "april": 62,
+            "march": 35,
+            "may": 1347
+        },
+        "tag": "spring-boot"
+    },
+    {
+        "callCount": {
+            "april": 23,
+            "march": 26,
+            "may": 770
+        },
+        "tag": "spring"
+    },
+    {
+        "callCount": {
+            "april": 9,
+            "march": 9,
+            "may": 215
+        },
+        "tag": "kotlin"
+    },
+    {
+        "callCount": {
+            "april": 3,
+            "may": 92
+        },
+        "tag": "junit"
+    },
+    {
+        "callCount": {
+            "april": 127,
+            "march": 83,
+            "may": 3794
+        },
+        "tag": "java"
+    },
+    {
+        "callCount": {
+            "april": 10,
+            "march": 7,
+            "may": 231
+        },
+        "tag": "hibernate"
+    },
+    {
+        "callCount": {
+            "april": 17,
+            "march": 13,
+            "may": 286
+        },
+        "tag": "gradle"
+    },
+    {
+        "callCount": {
+            "april": 4,
+            "march": 13,
+            "may": 67
+        },
+        "tag": "docker"
+    },
+    {
+        "callCount": {
+            "april": 27,
+            "march": 16,
+            "may": 525
+        },
+        "tag": "android"
+    }
+];
+
+      const selectedData = data.find(entry => entry.tag === this.selectedTag.name);
+      if (selectedData) {
+        const callCounts = Object.values(selectedData.callCount);
+        this.barData.datasets = [
+          {
+            label: 'Views',
+            data: callCounts,
+            fill: false,
+            backgroundColor: '#00bb7e',
+            borderColor: '#00bb7e',
+            tension: 0.4
+          }
+        ];
+      } else {
+        this.barData.datasets = [
+        {
+            label: 'Views',
+            fill: false,
+            backgroundColor: '#00bb7e',
+            borderColor: '#00bb7e',
+            tension: 0.4
+          }
+        ];
+      }
+    },
+    
+  
 
     // fetchChartData() {
     //   axios.get('/chart-data')
@@ -276,8 +363,9 @@ export default {
     <div class="col-12 xl:col-6">
       <div class="card">
         <h5>Top tags related to java </h5>
+        <br>
         <Chart type="line" :data="lineData" :options="lineOptions" />
-
+       
       </div>
       <div class="card">
         <div class="flex justify-content-between align-items-center mb-5">
@@ -329,6 +417,7 @@ export default {
 
         </ul>
       </div>
+      
     </div>
     <!-- <div>
       <h1>Data List</h1>
@@ -343,7 +432,13 @@ export default {
     </div> -->
     <div class="col-12 xl:col-6">
       <div class="card">
+        <li class="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
         <h5>Tags Evolution</h5>
+    
+        <Dropdown v-model="selectedTag" :options="tagOptions" optionLabel="name" placeholder="Select a Tag" class="w-full md:w-14rem" />
+
+        </li>
+  
         <Chart type="bar" :data="barData" :options="lineOptions" />
       </div>
       <div class="card">
